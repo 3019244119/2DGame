@@ -14,7 +14,9 @@ public class UIbig : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public Rigidbody2D Pri;
     public GameObject playerfu;
 
-    
+    public Animator anmia;
+    public bool Isboss = true;
+    public bool CanKill = false;
      
     
 
@@ -22,7 +24,7 @@ public class UIbig : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     void Start()
     {
         //
-
+        Debug.Log("被子弹打了");
         
     }
 

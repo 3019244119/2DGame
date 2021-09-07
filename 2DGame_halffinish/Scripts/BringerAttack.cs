@@ -126,7 +126,7 @@ public class BringerAttack : MonoBehaviour
             if (inrange)
             {
                 Debug.Log("命中了，打中了");
-                hp.changehp(30);
+                hp.changehp(15);
 
             }
 

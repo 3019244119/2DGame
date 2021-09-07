@@ -18,25 +18,45 @@ public class BringerCtrl : MonoBehaviour
 
     private float left;
     private float right;
-    
-    
+
+    public bool CanKill = false;
+    public bool moveable = true;
+
+    public float timer;
+    public bool timerBegin;
+    public float Htimer;
+    public bool HtimerBegin;
+
+    public AudioSource WalkAS;
+    public AudioSource HitAS;
+    public AudioSource DeadAS;
+
+
+
+
+
     void Start()
     {
         facedirction = -1;
         left = leftpoint.transform.position.x;
         right = rightpoint.transform.position.x;
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
+        
 
-        Move();
-        if(Input.GetKey(KeyCode.O))
-        anima.Play("Attack");
-        if (Input.GetKey(KeyCode.I))
-            anima.Play("Walk");
+        if (moveable)
+            Move();
+        // if(Input.GetKey(KeyCode.O))
+        //anima.Play("Attack");
+        // if (Input.GetKey(KeyCode.I))
+        //anima.Play("Walk");
+
+        DestroyThis();
+        HUrtThis();
 
 
 
@@ -45,10 +65,11 @@ public class BringerCtrl : MonoBehaviour
     {
         transform.localScale = new Vector3(1, 1, 1);
 
-        ri.velocity = new Vector2(-1*speed, 0);
+        ri.velocity = new Vector2(-1 * speed, 0);
 
         anima.SetBool("Walk", true);
-       
+       // WalkAS.Play();
+
 
     }
     public void MoveR()
@@ -57,7 +78,7 @@ public class BringerCtrl : MonoBehaviour
 
         ri.velocity = new Vector2(speed, 0);
 
-       anima.SetBool("Walk", true);
+        anima.SetBool("Walk", true);
 
 
     }
@@ -86,22 +107,22 @@ public class BringerCtrl : MonoBehaviour
             }
         }
 
-       // if ( Mathf.Abs(ri.velocity.x) < 0.1)
-       // {
-       // //    anima.SetBool("Walk", false);
-       // }
+        // if ( Mathf.Abs(ri.velocity.x) < 0.1)
+        // {
+        // //    anima.SetBool("Walk", false);
+        // }
     }
 
     void OnTriggerStay2D(Collider2D other)
     {
-        
-        
+
+
         if (other.gameObject.CompareTag("Player"))
         {
             facedirction = other.transform.position.x - this.transform.position.x;
             xunluo = false;
         }
-       
+
 
     }
 
@@ -109,6 +130,85 @@ public class BringerCtrl : MonoBehaviour
     {
         xunluo = true;
     }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+
+
+        // Debug.Log("开始被子弹打了");
+
+       
+        if (collision.transform.tag == "Bullet" && CanKill && !anima.GetBool("Attack") && !anima.GetBool("Attack2"))
+        {
+           
+            Death();
+
+        }
+        if (collision.transform.tag == "Bullet" && !CanKill && !anima.GetBool("Attack")&& !anima.GetBool("Attack2"))
+        {
+                    
+            Hurt();
+
+        }
+        if (collision.transform.tag == "Bullet" )
+        {
+            Debug.Log("子弹打Destory");
+            Destroy(collision.gameObject);
+
+        }
+       
+    }
+
+    public void Death(){
+        moveable = false;
+
+        anima.SetBool("Dead", true);
+
+        DeadAS.Play();
+
+        timerBegin = true;
+
+
+    }
+
+    void DestroyThis()
+    {
+        if (timer > 0.8) // 计时器延迟0.8秒播完动画
+        {
+            Destroy(gameObject);
+            
+        }
+        if (timerBegin)   //计时器开始
+            timer += Time.deltaTime;
+    }
+
+    public void Hurt()
+    {
+        moveable = false;
+
+        anima.SetBool("Hurt", true);
+
+        HtimerBegin = true;
+
+        HitAS.Play();
+
+    }
+
+    void HUrtThis()
+    {
+        if (Htimer > 0.4) // 计时器延迟0.4秒播完动画
+        {
+            anima.SetBool("Hurt",false);
+            Htimer = 0;
+            HtimerBegin = false;
+            moveable = true;
+
+        }
+        if (HtimerBegin)   //计时器开始
+            Htimer += Time.deltaTime;
+    }
+
+
 
 
 }

@@ -33,6 +33,8 @@ public class BringerAttack2 : MonoBehaviour
     private float left;
     private float right;
 
+    public AudioSource AttackAS;
+
     void Start()
     {
        // playerTrans = ri.GetComponentInParent<Transform>();
@@ -58,7 +60,7 @@ public class BringerAttack2 : MonoBehaviour
        // Debug.Log(playerfu.GetComponentInChildren<Rigidbody2D>().transform.position);
         if (playerfu.GetComponentInChildren<Rigidbody2D>().transform.position.x > left && playerfu.GetComponentInChildren<Rigidbody2D>().transform.position.x < right)
         {
-           // Debug.Log(playerfu.GetComponentInChildren<Rigidbody2D>().transform.position.x);
+            
             inrange = true;
             
             if ( playerfu.gameObject.CompareTag("Player") && zhunbei )
@@ -110,7 +112,7 @@ public class BringerAttack2 : MonoBehaviour
     public void Attack()
     {
 
-        
+        AttackAS.Play();
         anima.SetBool("Attack2", true);
         //Debug.Log(anima.GetBool("Attack2"));
         //GameObject GO =  Instantiate(yun, weizhi.transform.position, Quaternion.identity);

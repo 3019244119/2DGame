@@ -29,6 +29,7 @@ public class YunAttack : MonoBehaviour
     public bool hurttimerbegin = false;
     public bool canhurt = false;
     public bool finish = false;
+
     
     public Animator anmia;
     public HP hp;
@@ -190,7 +191,7 @@ public class YunAttack : MonoBehaviour
 
             HP hp = hpGO.GetComponent<HP>();
 
-            //hp.changehp(40);
+            hp.changehp(40);
 
             yanchi = 0;
 
