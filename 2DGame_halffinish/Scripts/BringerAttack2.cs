@@ -10,12 +10,17 @@ public class BringerAttack2 : MonoBehaviour
     public GameObject yun;
     public GameObject weizhi;
 
+    public BringerAttack bringerA;
+
     public Rigidbody2D ri;
+    public GameObject playerfu;
+   
 
     public bool zhunbei = true;
     public bool counts = false;
     public bool inrange = false;
     public bool CreatTimerBegin = false;
+    public bool keyifang = true;
 
     public float timer;
     public float yanchi;
@@ -30,9 +35,13 @@ public class BringerAttack2 : MonoBehaviour
 
     void Start()
     {
-
+       // playerTrans = ri.GetComponentInParent<Transform>();
+        
         left = leftpoint.transform.position.x;
         right = rightpoint.transform.position.x;
+        playerfu = ri.transform.parent.gameObject;
+       // Debug.Log(left);
+       // Debug.Log(right);
 
     }
 
@@ -44,11 +53,17 @@ public class BringerAttack2 : MonoBehaviour
         DoAttack();
         CreatY();
 
-        if(ri.transform.position.x> left &&ri.transform.position.x < right)
+        //Debug.Log(playerfu.GetComponentInChildren<Rigidbody2D>().transform.position.x);
+        // Debug.Log(playerfu.transform.position);
+       // Debug.Log(playerfu.GetComponentInChildren<Rigidbody2D>().transform.position);
+        if (playerfu.GetComponentInChildren<Rigidbody2D>().transform.position.x > left && playerfu.GetComponentInChildren<Rigidbody2D>().transform.position.x < right)
         {
+           // Debug.Log(playerfu.GetComponentInChildren<Rigidbody2D>().transform.position.x);
             inrange = true;
-            if (ri.gameObject.CompareTag("Player") && zhunbei)
+            
+            if ( playerfu.gameObject.CompareTag("Player") && zhunbei )
             {
+               // Debug.Log(playerfu.GetComponentInChildren<Rigidbody2D>().transform.position.x);
                 counts = true;
             }
         }
@@ -64,8 +79,8 @@ public class BringerAttack2 : MonoBehaviour
     {
         if (timer <= 0)
         {
-           
-            anima.Play("Walk");
+            anima.SetBool("Attack2", false);
+            //anima.Play("Walk");
         }
         else
             timer -= Time.deltaTime;
@@ -81,8 +96,9 @@ public class BringerAttack2 : MonoBehaviour
 
     public void DoAttack()
     {
-        if (yanchi > 1f)
+        if (yanchi > 1f )
         {
+           
             Attack();
         }
         if (counts)
@@ -93,8 +109,10 @@ public class BringerAttack2 : MonoBehaviour
 
     public void Attack()
     {
-        anima.Play("Cast");
 
+        
+        anima.SetBool("Attack2", true);
+        //Debug.Log(anima.GetBool("Attack2"));
         //GameObject GO =  Instantiate(yun, weizhi.transform.position, Quaternion.identity);
 
         timer = 1f;
@@ -107,10 +125,16 @@ public class BringerAttack2 : MonoBehaviour
 
         counts = false;
 
-        CreatTimerBegin = true;
+        if (anima.GetBool("Attack2") && !anima.GetBool("Attack"))
+        {
+            CreatTimerBegin = true;
+
+        }
+       
+       
 
         if (inrange)
-            Debug.Log("命中了，打中了");
+            Debug.Log("放云");
     }
     public void CreatY()
     {

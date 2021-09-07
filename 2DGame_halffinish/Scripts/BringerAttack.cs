@@ -11,8 +11,16 @@ public class BringerAttack : MonoBehaviour
     public bool zhunbei = true;
     public bool counts = false;
     public bool inrange = false;
+    public bool keyifang = true;
+    public bool Phurt = false;
+
+    public HP hp;
+
+
+    public BringerAttack2 bringerA2;
 
     public float timer;
+    public float hurttimer;
     public float yanchi;
     public float lengque;
 
@@ -27,6 +35,7 @@ public class BringerAttack : MonoBehaviour
         AttackToWalk();
         CD();
         DoAttack();
+        Hurt();
 
     }
     void OnTriggerEnter2D(Collider2D other)
@@ -46,8 +55,6 @@ public class BringerAttack : MonoBehaviour
 
         
 
-
-
     }
 
     void OnTriggerExit2D(Collider2D other)
@@ -59,7 +66,10 @@ public class BringerAttack : MonoBehaviour
     {
         if (timer <= 0)
         {
-            anima.Play("Walk");
+            
+            anima.SetBool("Attack", false);
+            //anima.Play("Walk");
+            
         }
         else
             timer -= Time.deltaTime;
@@ -76,6 +86,7 @@ public class BringerAttack : MonoBehaviour
     public void DoAttack(){
         if(yanchi> 1f)
         {
+           
             Attack();
         }
         if (counts)
@@ -86,7 +97,8 @@ public class BringerAttack : MonoBehaviour
 
     public void Attack()
     {
-        anima.Play("Attack");
+        anima.SetBool("Attack", true);
+       // anima.Play("Attack");
 
         timer = 0.7f;
 
@@ -98,7 +110,29 @@ public class BringerAttack : MonoBehaviour
 
         counts = false;
 
-        if (inrange)
-            Debug.Log("命中了，打中了");
+        Phurt = true;
+
+        hurttimer = 0.5f;
+            
+    }
+
+    public void Hurt()
+    {
+        if (hurttimer <= 0 && Phurt )
+        {
+           // Debug.Log("检测");
+            Phurt = false;
+
+            if (inrange)
+            {
+                Debug.Log("命中了，打中了");
+                hp.changehp(30);
+
+            }
+
+
+        }
+        else
+            hurttimer -= Time.deltaTime;
     }
 }
