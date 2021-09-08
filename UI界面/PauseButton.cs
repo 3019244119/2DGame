@@ -1,26 +1,28 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-public class UIS : MonoBehaviour
+
+public class PauseButton : MonoBehaviour
 {
     // Start is called before the first frame update
+   public  GameObject PauseC;
     public GameObject HelpC;
     void Start()
     {
-        HelpC.SetActive(false);
-    }
-   public void click()
-    {
-        Time.timeScale = 1f;
-        SceneManager.LoadScene("SampleScene");
+        PauseC.SetActive(false);
         HelpC.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
-
         
     }
+
+    public void click()
+    {
+        Time.timeScale = 0;
+        PauseC.SetActive(true);
+    }
+
 }
