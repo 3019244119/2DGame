@@ -22,5 +22,6 @@ public class KillBoss : MonoBehaviour
         BossC.CanKill = true;
         Debug.Log("ø…“‘…±boss¡À");
 
+        Destroy(gameObject);
     }
 }
